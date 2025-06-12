@@ -8,6 +8,7 @@ export const mockData = {
     campaignsCreated: 0,
     participated: 0,
     phone: 'Not provided',
+    donation : '123'
   },
   campaigns: [
     {

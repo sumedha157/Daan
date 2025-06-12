@@ -1,22 +1,74 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Users, Mail, Lock, Heart } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, Users, Mail, Lock, Heart, Upload, Camera } from 'lucide-react';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 
 const AuthPage = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  const [formData, setFormData] = useState({ fullName: '', email: '', password: '' });
+  const [errors, setErrors] = useState({});
+
+  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleProfilePictureChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setProfilePicture(URL.createObjectURL(file));
+    }
+  };
+
+  const handleCameraCapture = () => {
+    cameraInputRef.current.click();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  //validating the form
+  const validate = () => {
+    const newErrors = {};
+    if (isSignUp && !profilePicture) {
+      newErrors.profilePicture = "Profile picture is required.";
+    }
+    if (isSignUp && !formData.fullName.trim()) {
+      newErrors.fullName = "Full Name is required.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    }
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  const handleAuthSubmit = (event) => {
+    event.preventDefault();
+    if (validate()) {
+      console.log("Validation successful. Redirecting to dashboard...");
+      navigate('/dashboard');
+    } else {
+      console.log("Validation failed. Please fill all required fields.");
+    }
+  };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 animate-fade-in">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
             <Link to="/" className="inline-flex items-center space-x-2 mb-4">
               <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Heart className="h-6 w-6 text-white" />
+                   <Heart className="h-6 w-6 text-white" /> {/*Brand logo */}
               </div>
-              <span className="font-bold text-2xl text-gray-800 dark:text-white">FundHope</span>
+              <span className="font-bold text-2xl text-gray-800 dark:text-white">DAAN</span>
             </Link>
           <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
             {isSignUp ? 'Create an Account' : 'Welcome Back'}
@@ -41,18 +93,67 @@ const AuthPage = () => {
                 Sign Up
                 </button>
             </div>
-
-          <form className="space-y-4">
+            
+          <form className="space-y-4" onSubmit={handleAuthSubmit} noValidate>
              {isSignUp && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
-                <div className="relative">
-                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                       <Users className="h-5 w-5 text-gray-400" />
-                     </div>
-                    <input type="text" placeholder="John Doe" className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700" />
+              <>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Profile Picture</label>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                      {profilePicture ? (
+                        <img src={profilePicture} alt="Profile Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <Users className="w-8 h-8 text-gray-400" />
+                      )}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Button type="button" variant="outline" onClick={() => fileInputRef.current.click()}>
+                        <Upload className="h-4 w-4 mr-2" />
+                        Upload
+                      </Button>
+                       <Button type="button" variant="outline" onClick={handleCameraCapture}>
+                        <Camera className="h-4 w-4 mr-2" />
+                        Camera
+                      </Button>
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleProfilePictureChange}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                       <input
+                        type="file"
+                        ref={cameraInputRef}
+                        onChange={handleProfilePictureChange}
+                        className="hidden"
+                        accept="image/*"
+                        capture="environment"
+                      />
+                    </div>
+                  </div>
+                  {errors.profilePicture && <p className="text-red-500 text-xs mt-1">{errors.profilePicture}</p>}
                 </div>
-              </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                  <div className="relative">
+                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                         <Users className="h-5 w-5 text-gray-400" />
+                       </div>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="John Doe"
+                      className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+                </div>
+              </>
             )}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
@@ -60,8 +161,16 @@ const AuthPage = () => {
                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                        <Mail className="h-5 w-5 text-gray-400" />
                      </div>
-                    <input type="email" placeholder="you@example.com" className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="you@example.com"
+                      className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
                 </div>
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
             <div>
@@ -70,11 +179,19 @@ const AuthPage = () => {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Lock className="h-5 w-5 text-gray-400" />
                 </div>
-                <input type={showPassword ? 'text' : 'password'} placeholder="••••••••" className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 pr-10" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="••••••••"
+                  className="w-full pl-10 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 pr-10"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500">
                     {showPassword ? <EyeOff className="h-5 w-5"/> : <Eye className="h-5 w-5"/>}
                 </button>
               </div>
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
             
             <div className="flex items-center justify-between text-sm">
