@@ -25,7 +25,7 @@ const IndexPage = () => {
                 </div>
                 <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                     <div>
-                        <p className="text-3xl font-bold text-yellow-500">$2.4M</p>
+                        <p className="text-3xl font-bold text-yellow-500">₿2.4M</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">Total Raised</p>
                     </div>
                      <div>

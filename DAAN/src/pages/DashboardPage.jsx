@@ -24,7 +24,7 @@ const DashboardPage = () => {
                 )}
             </div>
              <div className="absolute top-2 left-2 flex flex-col space-y-2">
-                <div className={`text-xs font-bold px-2 py-1 rounded-full text-white ${campaign.category === 'Health' ? 'bg-red-500' : campaign.category === 'Education' ? 'bg-blue-500' : campaign.category === 'Environment' ? 'bg-green-500' : 'bg-purple-500'}`}>
+                <div className={`text-xs font-bold px-2 py-1 rounded-full text-white ₿{campaign.category === 'Health' ? 'bg-red-500' : campaign.category === 'Education' ? 'bg-blue-500' : campaign.category === 'Environment' ? 'bg-green-500' : 'bg-purple-500'}`}>
                     {campaign.category}
                 </div>
             </div>
@@ -36,8 +36,8 @@ const DashboardPage = () => {
             <div>
                 <ProgressBar raised={campaign.raised} goal={campaign.goal} />
                 <div className="flex justify-between items-center text-sm mt-2">
-                    <p className="font-bold text-blue-600 dark:text-blue-400">${campaign.raised.toLocaleString()}</p>
-                    <p className="text-gray-500 dark:text-gray-400">of ${campaign.goal.toLocaleString()}</p>
+                    <p className="font-bold text-blue-600 dark:text-blue-400">₿{campaign.raised.toLocaleString()}</p>
+                    <p className="text-gray-500 dark:text-gray-400">of ₿{campaign.goal.toLocaleString()}</p>
                 </div>
             </div>
         </div>

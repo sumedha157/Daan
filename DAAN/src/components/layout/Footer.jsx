@@ -24,7 +24,7 @@ const Footer = () => {
               </div>
 
               <span className="font-bold text-xl text-gray-800 dark:text-white">
-                FundHope
+                DAAN
               </span>
             </Link>
             <p className="text-gray-500 dark:text-gray-400">

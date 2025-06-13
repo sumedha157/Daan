@@ -93,7 +93,7 @@ const ProfilePage = () => {
                             <div className="space-y-4">
                                <div className="flex justify-between items-center">
                                  <p className="text-gray-500 dark:text-gray-400">Total Donated</p>
-                                 <p className="font-bold text-green-600 text-2xl">${mockData.user.totalDonated}</p>
+                                 <p className="font-bold text-green-600 text-2xl">₿{mockData.user.totalDonated}</p>
                                </div>
                                <div className="flex justify-between items-center text-sm">
                                  <p className="text-gray-500 dark:text-gray-400 flex items-center"><Heart className="h-4 w-4 mr-2 text-red-500"/> Campaigns Supported</p>
@@ -182,10 +182,10 @@ const ProfilePage = () => {
                                             <span className="font-semibold">{campaign.progress}%</span>
                                         </div>
                                         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                            <div className="bg-blue-600 h-2.5 rounded-full" style={{width: `${campaign.progress}%`}}></div>
+                                            <div className="bg-blue-600 h-2.5 rounded-full" style={{width: `{campaign.progress}%`}}></div>
                                         </div>
                                         <div className="flex justify-between text-sm mt-2">
-                                            <p><span className="font-bold">${campaign.raised.toLocaleString()}</span> raised</p>
+                                            <p><span className="font-bold">₿{campaign.raised.toLocaleString()}</span> raised</p>
                                             <p>{campaign.backers} funds</p>
                                         </div>
                                     </div>

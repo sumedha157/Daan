@@ -97,7 +97,7 @@ const CreateCampaignModal = ({ isOpen, onClose }) => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                    <label htmlFor="fundingGoal" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Funding Goal ($)</label>
+                    <label htmlFor="fundingGoal" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Funding Goal (₿)</label>
                     <input 
                         type="number" 
                         id="fundingGoal"
