@@ -10,7 +10,7 @@ const IndexPage = () => {
         <section className="bg-gray-50 dark:bg-gray-900 text-center py-20 lg:py-32">
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4">
-                    Turn Your <span className="text-yellow-500">Dreams</span> Into Reality
+                    Get <span className="text-yellow-500">Help</span> Do <span className="text-yellow-500">Help</span>
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
                     Join thousands of creators, dreamers, and changemakers who are funding their passions and making a positive impact in the world.

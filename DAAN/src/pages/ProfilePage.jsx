@@ -73,7 +73,7 @@ const ProfilePage = () => {
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
                                     <input type="tel" defaultValue={mockData.user.phone} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700" />
                                 </div>
-                                <div>
+                                {/* <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
                                      <div className="relative">
                                         <input type={showPassword ? "text" : "password"} defaultValue="fakepassword" className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 pr-10" />
@@ -81,7 +81,7 @@ const ProfilePage = () => {
                                             {showPassword ? <EyeOff className="h-5 w-5"/> : <Eye className="h-5 w-5"/>}
                                         </button>
                                     </div>
-                                </div>
+                                </div> */}
                             </form>
                         </Card>
                     </div>
@@ -186,12 +186,11 @@ const ProfilePage = () => {
                                         </div>
                                         <div className="flex justify-between text-sm mt-2">
                                             <p><span className="font-bold">${campaign.raised.toLocaleString()}</span> raised</p>
-                                            <p>{campaign.backers} backers</p>
+                                            <p>{campaign.backers} funds</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4 mt-6">
                                         <Button variant="outline" className="w-full">View Campaign</Button>
-                                        <Button className="w-full">Manage</Button>
                                     </div>
                                 </Card>
                             ))}
@@ -248,7 +247,7 @@ const ProfilePage = () => {
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Manage your privacy settings and account security</p>
                         <div className="space-y-6">
                             <ToggleSwitch label="Public Profile" isEnabled={true} />
-                            <ToggleSwitch label="Show Donation History" isEnabled={false} />
+                            {/* <ToggleSwitch label="Show Donation History" isEnabled={false} /> */}
                              <div className="border-t border-gray-200 dark:border-gray-700"></div>
                              <div>
                                 <h4 className="font-semibold text-md mb-4">Change Password</h4>

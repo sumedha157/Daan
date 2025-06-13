@@ -4,10 +4,14 @@ import { mockData } from '../data/mockData';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import ProgressBar from '../components/common/ProgressBar';
+// Import the new modal component
+import CampaignDetailModal from '../components/CampaignDetailModal';
 
 const DashboardPage = () => {
   const [viewMode, setViewMode] = useState('grid');
-  
+  // State to manage the selected campaign for the modal
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+
   const CampaignCard = ({ campaign, viewMode }) => (
     <Card className={`overflow-hidden transition-shadow hover:shadow-xl ${viewMode === 'list' ? 'flex flex-col sm:flex-row' : ''}`}>
         <div className={`relative ${viewMode === 'list' ? 'sm:w-1/3' : 'h-48'}`}>
@@ -40,42 +44,64 @@ const DashboardPage = () => {
     </Card>
   );
 
+  // Handlers to open and close the modal
+  const handleCampaignClick = (campaign) => {
+    setSelectedCampaign(campaign);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCampaign(null);
+  };
+
   return (
-    <main className="container mx-auto px-4 py-8 animate-fade-in">
-        <div className="text-left mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Active Campaigns</h1>
-            <p className="text-md text-gray-600 dark:text-gray-300 mt-1">Discover and support meaningful causes that matter to you</p>
-        </div>
-        
-        <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/30 rounded-lg">
-            <p className="text-blue-800 dark:text-blue-200">
-                Welcome back, <span className="font-semibold capitalize">{mockData.user.name}</span>! Ready to make a difference today?
-            </p>
-        </div>
+    <>
+      <main className="container mx-auto px-4 py-8 animate-fade-in">
+          <div className="text-left mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Active Campaigns</h1>
+              <p className="text-md text-gray-600 dark:text-gray-300 mt-1">Discover and support meaningful causes that matter to you</p>
+          </div>
+          
+          {/* <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/30 rounded-lg">
+              <p className="text-blue-800 dark:text-blue-200">
+                  Welcome back, <span className="font-semibold capitalize">{mockData.user.name}</span>! Ready to make a difference today?
+              </p>
+          </div> */}
 
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-             <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg w-full sm:w-auto">
-                <div className="pl-3">
-                    <Search className="h-5 w-5 text-gray-500" />
-                </div>
-                <input type="text" placeholder="Search campaigns..." className="bg-transparent p-2 focus:outline-none w-full"/>
-            </div>
-            <div className="flex items-center space-x-2">
-                <Button variant={viewMode === 'grid' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('grid')}>
-                    <Grid3X3 className="h-5 w-5"/>
-                </Button>
-                <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}>
-                    <List className="h-5 w-5"/>
-                </Button>
-            </div>
-        </div>
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+               <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg w-full sm:w-auto">
+                  <div className="pl-3">
+                      <Search className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <input type="text" placeholder="Search campaigns..." className="bg-transparent p-2 focus:outline-none w-full"/>
+              </div>
+              <div className="flex items-center space-x-2">
+                  <Button variant={viewMode === 'grid' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('grid')}>
+                      <Grid3X3 className="h-5 w-5"/>
+                  </Button>
+                  <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}>
+                      <List className="h-5 w-5"/>
+                  </Button>
+              </div>
+          </div>
 
-        <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
-            {mockData.campaigns.map(campaign => (
-                <CampaignCard key={campaign.id} campaign={campaign} viewMode={viewMode} />
-            ))}
-        </div>
-    </main>
+          <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+              {mockData.campaigns.map(campaign => (
+                  // Wrap the card in a clickable div
+                  <div key={campaign.id} onClick={() => handleCampaignClick(campaign)} className="cursor-pointer">
+                    <CampaignCard campaign={campaign} viewMode={viewMode} />
+                  </div>
+              ))}
+          </div>
+      </main>
+
+      {/* Conditionally render the modal */}
+      {selectedCampaign && (
+        <CampaignDetailModal 
+          campaign={selectedCampaign}
+          onClose={handleCloseModal} 
+        />
+      )}
+    </>
   );
 };
 
